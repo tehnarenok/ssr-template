@@ -1,0 +1,13 @@
+root = true
+
+[*]
+ident_style = space
+ident_size = 4
+charset = utf-8
+trim_trailing_whitespacing= false
+insert_final_newline = true
+end_of_line = lf 
+
+[*.css]
+ident_style = space
+ident_size = 2
