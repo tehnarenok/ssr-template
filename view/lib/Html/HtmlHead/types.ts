@@ -1,16 +1,16 @@
-interface IHtmlHeadSeo {
+export interface IHtmlHeadSeo {
     title: string;
     description: string;
     ogTitle?: string;
     ogDescription?: string;
 }
 
-interface IHtmlHeadLink {
+export interface IHtmlHeadLink {
     href: string;
     [key: string]: string;
 }
 
-interface IHtmHeadScript {
+export interface IHtmHeadScript {
     src?: string;
     content?: string;
 }
@@ -19,7 +19,7 @@ export interface IHtmlHeadStylesheet {
     href: string;
 }
 
-interface IHtmlHeadInlineStylesheet {
+export interface IHtmlHeadInlineStylesheet {
     content: string;
 }
 

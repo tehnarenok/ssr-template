@@ -1,4 +1,10 @@
-import { IHtmlHeadStylesheet } from './HtmlHead/types';
+import {
+    IHtmHeadScript,
+    IHtmlHeadInlineStylesheet,
+    IHtmlHeadLink,
+    IHtmlHeadMeta,
+    IHtmlHeadStylesheet
+} from './HtmlHead/types';
 
 export interface IHtmlBodyScript {
     src?: string;
@@ -15,5 +21,9 @@ export interface IHtmlProps {
     // eslint-disable-next-line @typescript-eslint/ban-types
     initialState: Object;
     bodyScripts?: Array<IHtmlBodyScript>;
-    stylesheets?: IHtmlHeadStylesheet[]
+    stylesheets?: IHtmlHeadStylesheet[];
+    meta?: IHtmlHeadMeta[];
+    inlineStylesheets?: IHtmlHeadInlineStylesheet[];
+    scripts?: IHtmHeadScript[];
+    links?: IHtmlHeadLink[];
 }

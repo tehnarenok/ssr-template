@@ -2,8 +2,8 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import classNames from 'classnames';
-import { changeQuery } from 'view/actions/router';
-import { IRouterState } from 'view/reducers/router';
+import { changeQuery } from 'view/store/actions/router';
+import { AppStore } from 'view/store/getStore';
 import styles from './index.module.css';
 import data from './data';
 import logo from './webpack.svg';
@@ -12,7 +12,7 @@ import tehdevLogo from './logo_1_without.png';
 const cx = classNames.bind(styles);
 
 const Home = () => {
-    const router: IRouterState = useSelector<{router: IRouterState}, IRouterState>(state => state.router);
+    const router = useSelector((state: AppStore) => state.router);
     const dispatch = useDispatch();
 
     const handleClick = (key: string) => {
@@ -34,7 +34,7 @@ const Home = () => {
         <div className={styles.container}>
             <header className={styles.header}>
                 <a href='https://tehdev.com'>
-                    <img className={styles['header-logo']} src={tehdevLogo}/>
+                    <img className={styles['header-logo']} src={tehdevLogo} alt='tehdev logo'/>
                 </a>
                 <div className={styles['header-text']}>Custom SSR application</div>
             </header>

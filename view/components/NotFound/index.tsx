@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { goTo } from 'view/actions/router';
+import { goTo } from 'view/store/actions/router';
 import styles from './index.module.css';
 
 const NotFound = () => {

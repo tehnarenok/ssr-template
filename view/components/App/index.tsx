@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { useDispatch } from 'react-redux';
-import { IRouterState } from 'view/reducers/router';
-import { goTo, changeQuery } from 'view/actions/router';
+import { goTo, changeQuery } from 'view/store/actions/router';
+import { AppStore } from 'view/store/getStore';
 import styles from './index.module.css';
 
 const App = ({ children, }: {children: React.ReactNode}) => {
-    const router: IRouterState = useSelector<{router: IRouterState}, IRouterState>(state => state.router);
+    const router = useSelector((state: AppStore) => state.router);
     const dispatch = useDispatch();
     const [ lastPage, setLastPage ] = useState<string | null>(null);
 

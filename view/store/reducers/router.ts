@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { goTo, changeQuery } from 'view/actions/router';
+import { goTo, changeQuery } from 'view/store/actions/router';
 import matchRoute from 'core/router/match';
 
 export interface IRouterState {

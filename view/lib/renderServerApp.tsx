@@ -1,18 +1,15 @@
 import { renderToStaticMarkup, renderToString } from 'react-dom/server';
 import React from 'react';
-import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import App from 'view/components/App';
-import reducers from 'view/reducers';
-import { goTo, changeQuery } from 'view/actions/router';
+import { goTo, changeQuery } from 'view/store/actions/router';
+import getStore from 'view/store/getStore';
 import { IServerRenderProps } from './types';
 import Html from './Html';
+import renderServerPortals from './renderServerPortals';
 
 const renderServerApp = (props: IServerRenderProps) => {
-    const store = configureStore({
-        reducer: reducers,
-        devTools: process.env.NODE_ENV === 'development',
-    });
+    const store = getStore(props.store?.initialState);
 
     store.dispatch(goTo({ path: props.router.path, }));
     store.dispatch(changeQuery({ query: props.router.query ?? {}, }));
@@ -25,7 +22,7 @@ const renderServerApp = (props: IServerRenderProps) => {
         </Provider>
     );
 
-    const html = renderToStaticMarkup(
+    let html = renderToStaticMarkup(
         <Html
             lang='ru'
             rootId='root'
@@ -40,6 +37,8 @@ const renderServerApp = (props: IServerRenderProps) => {
             stylesheets={props.stylesheets}
         />
     );
+
+    html = renderServerPortals(html);
 
     return `<!doctype html>${html}`;
 };

@@ -10,9 +10,21 @@ const Html = (props: IHtmlProps) => {
         description: 'This is template',
     };
 
+    const meta = [
+        { name: 'viewport', content: 'width=device-width,initial-scale=1', },
+        ...(props.meta || [])
+    ];
+
     return (
         <html lang={props.lang}>
-            <HtmlHead seo={seo} stylesheets={props.stylesheets}/>
+            <HtmlHead
+                seo={seo}
+                stylesheets={props.stylesheets}
+                meta={meta}
+                inlineStylesheets={props.inlineStylesheets}
+                scripts={props.scripts}
+                links={props.links}
+            />
             <body>
                 <div
                     id={props.rootId}

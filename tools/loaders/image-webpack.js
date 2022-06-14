@@ -3,23 +3,20 @@ module.exports = ({ options = {}, } = {}) => ({
     options: {
         mozjpeg: {
             progressive: true,
+            quality: 1,
         },
         gifsicle: {
             interlaced: false,
+            quality: 1,
         },
         optipng: {
-            optimizationLevel: 7,
+            enable: false,
         },
         pngquant: {
             speed: 4,
-            quality: '65-90',
+            quality: [ 1, 1 ],
         },
         svgo: {
-            plugins: [
-                {
-                    removeViewBox: false,
-                }
-            ],
         },
         ...options,
     },

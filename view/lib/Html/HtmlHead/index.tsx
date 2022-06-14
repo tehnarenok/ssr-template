@@ -4,12 +4,14 @@ import { IHtmlHeadMeta, IHtmlHeadProps } from './types';
 const HtmlHead = (props: IHtmlHeadProps) => {
     const meta: Array<IHtmlHeadMeta> = [
         ...(props.meta || []),
-        { name: 'title', content: props.seo.title, },
         { name: 'description', content: props.seo.description, }
     ];
 
+    const title = props.seo.title;
+
     return (
         <head>
+            <title>{title}</title>
             {meta.map(metaItem => (
                 <meta key={`${metaItem.name}-${metaItem.content}`} name={metaItem.name} content={metaItem.content}/>
             ))}
