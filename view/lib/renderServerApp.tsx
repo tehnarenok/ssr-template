@@ -6,7 +6,7 @@ import { goTo, changeQuery } from 'view/store/actions/router';
 import getStore from 'view/store/getStore';
 import { IServerRenderProps } from './types';
 import Html from './Html';
-import renderServerPortals from './renderServerPortals';
+import renderServerPortals from './Portal/renderServerPortals';
 
 const renderServerApp = (props: IServerRenderProps) => {
     const store = getStore(props.store?.initialState);

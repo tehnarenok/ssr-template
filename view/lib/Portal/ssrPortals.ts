@@ -1,14 +1,9 @@
 import { ReactElement, ReactPortal, useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
+import { IServerPortal, IUsePortalOptions } from './types';
 
 // eslint-disable-next-line prefer-const
-export let portals: Array<[ReactElement, string, boolean]> = [];
-
-export interface IUsePortalOptions {
-    deps?: Array<unknown>;
-    server?: boolean;
-    client?: boolean;
-}
+export let portals: Array<IServerPortal> = [];
 
 export const usePortal = (element: ReactElement, selector: string, options: IUsePortalOptions) => {
     const [ portal, setPortal ] = useState<ReactPortal | null>();
@@ -16,7 +11,7 @@ export const usePortal = (element: ReactElement, selector: string, options: IUse
 
     if (typeof window === 'undefined' || typeof document === 'undefined') {
         if (server) {
-            portals.push([ element, selector, client ]);
+            portals.push({ element, selector, client, });
         }
     }
 
@@ -39,7 +34,7 @@ export const usePortal = (element: ReactElement, selector: string, options: IUse
     return portal;
 };
 
-export const flushPortals = (): Array<[ReactElement, string, boolean]> => {
+export const flushPortals = (): Array<IServerPortal> => {
     const copy = portals.slice();
 
     portals.length = 0;

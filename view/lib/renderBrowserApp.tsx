@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import App from 'view/components/App';
 import getStore from 'view/store/getStore';
 import { IBrowserRenderProps } from './types';
-import { removePortals } from './ssrPortals';
+import { removePortals } from './Portal/ssrPortals';
 
 const renderBrowserApp = (props: IBrowserRenderProps) => {
     const rootContainer = document.getElementById('root') || document.body;

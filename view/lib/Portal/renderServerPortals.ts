@@ -5,8 +5,8 @@ import { flushPortals } from './ssrPortals';
 const renderServerPortals = (html: string) => {
     const $ = load(html);
 
-    flushPortals().forEach(([ children, selector, client ]) => {
-        const markup = ReactDOMServer.renderToStaticMarkup(children);
+    flushPortals().forEach(({ element, selector, client, }) => {
+        const markup = ReactDOMServer.renderToStaticMarkup(element);
 
         if (client) {
             $(markup).attr('data-ssr-react-portal', '').appendTo(selector);

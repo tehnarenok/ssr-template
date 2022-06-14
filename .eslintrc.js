@@ -14,13 +14,8 @@ module.exports = {
         expect: true,
         jsdom: true,
         JSX: true,
-        document: true,
         require: true,
-        console: true,
-        window: true,
         process: true,
-        URL: true,
-        URLSearchParams: true,
     },
     overrides: [
         {
@@ -36,11 +31,16 @@ module.exports = {
             env: {
                 node: true,
                 es6: true,
+                browser: true,
             },
             plugins: [ 'jest', 'eslint-plugin-import', 'prettier' ],
         },
         {
             files: [ '*.tsx', '*.ts' ],
+            env: {
+                browser: true,
+                es6: true,
+            },
             extends: [
                 'eslint:recommended',
                 'plugin:jest/recommended',

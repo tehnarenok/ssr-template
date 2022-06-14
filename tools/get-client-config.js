@@ -59,11 +59,12 @@ module.exports = ({
             crossOriginLoading: 'anonymous',
         },
         resolve: {
-            extensions: [ '.ts', '.tsx', '.js', '.jsx', '.json' ],
+            extensions: [ '.ts', '.tsx', '.js', '.jsx', '.json', '.css' ],
             alias: {
                 core: path.resolve(__dirname, '..', 'core'),
                 view: path.resolve(__dirname, '..', 'view'),
                 app: path.resolve(__dirname, '..', 'app'),
+                '~': path.resolve(__dirname, '..', 'node_modules'),
             },
         },
         stats: {
