@@ -8,7 +8,7 @@ if (NODE_ENV === 'development') {
     const access = fs.createWriteStream(LOGS_DIR + '/debug.log', { flags: 'a', });
     const error = fs.createWriteStream(LOGS_DIR + '/error.log', { flags: 'a', });
 
-    console = new Console({
+    const console = new Console({
         stdout: access,
         stderr: error,
         inspectOptions: {

@@ -20,6 +20,7 @@ BIN_MODULES_DIR := $(NODE_MODULES_DIR).bin/
 WEBPACK := $(BIN_MODULES_DIR)webpack
 NODEMON := $(BIN_MODULES_DIR)nodemon
 TSC := $(BIN_MODULES_DIR)tsc
+ESLINT := $(BIN_MODULES_DIR)eslint
 
 $(info ===> Using node: $(NODE) ($(shell $(NODE) --version)))
 $(info ===> Using yarn: $(YARN) ($(shell $(YARN) --version)))
