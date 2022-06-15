@@ -4,7 +4,7 @@ import renderBrowserApp from 'view/lib/renderBrowserApp';
 renderBrowserApp({
     rootComponent: NotFound,
     store: {
-        initialState: null,
+        initialState: {},
     },
 
 });

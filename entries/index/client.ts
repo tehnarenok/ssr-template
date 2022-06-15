@@ -4,6 +4,6 @@ import renderBrowserApp from 'view/lib/renderBrowserApp';
 renderBrowserApp({
     rootComponent: Home,
     store: {
-        initialState: null,
+        initialState: {},
     },
 });
