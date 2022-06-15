@@ -1,7 +1,14 @@
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const getBundlePrefix = require('../get-bundle-prefix');
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import { WebpackPluginInstance } from 'webpack';
+import { IExtractCssProps } from '../types';
+import getBundlePrefix from '../get-bundle-prefix';
 
-module.exports = ({ env, bundleName, } = {}) => {
+const extractCss = (props: IExtractCssProps): WebpackPluginInstance => {
+    const {
+        env,
+        bundleName,
+    } = props;
+
     return new MiniCssExtractPlugin({
         filename: env === 'production' ?
             `${getBundlePrefix(bundleName)}[name].[contenthash].css` :
@@ -12,3 +19,5 @@ module.exports = ({ env, bundleName, } = {}) => {
         ignoreOrder: true,
     });
 };
+
+export default extractCss;

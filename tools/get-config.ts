@@ -1,14 +1,11 @@
-const glob = require('glob');
-const path = require('path');
-const getClientConfig = require('./get-client-config');
-const getServerConfig = require('./get-server-config');
+import glob from 'glob';
+import { Configuration } from 'webpack';
+import path from 'path';
+import getClientConfig from './get-client-config';
+import getServerConfig from './get-server-config';
+import { IConfiguration, IConfigurationOverrides, IEntries, ISpec } from './types';
 
-/**
- * Получаем тип entry
- * @param {String} file Имя файла
- * @returns Тип entry
- */
-const getEntryType = file => {
+const getEntryType = (file: string) => {
     switch (true) {
         case /server\.(ts|js)$/.test(file): {
             return 'server';
@@ -26,14 +23,16 @@ const getEntryType = file => {
     }
 };
 
-const getServerEntries = bundleSpecs => {
+const getServerEntries = (bundleSpecs: ISpec) => {
     if (bundleSpecs.app) {
         throw new Error("Don\'t use app as a bundleName, it was reserved for nodejs application");
     }
 
     const serverBundles = Object.keys(bundleSpecs);
 
-    const entries = serverBundles.reduce((acc, bundleName) => {
+    let entries: IEntries = {};
+
+    entries = serverBundles.reduce((acc: IEntries, bundleName) => {
         const serverEntry = bundleSpecs[bundleName].entries.server;
 
         if (serverEntry) {
@@ -50,16 +49,16 @@ const getServerEntries = bundleSpecs => {
     return entries;
 };
 
-/**
- * Получаем конфиги
- * @param {String} folder директория
- * @param {*} config конфиг
- * @param {*} configOverrides configOverrides
- */
-const getBundlesSpecByFolder = (folder, config, configOverrides = {}) => {
+const getBundlesSpecByFolder = (
+    folder: string,
+    config: IConfiguration,
+    configOverrides: IConfigurationOverrides = {}
+) => {
     const files = glob.sync(`${folder}/**/@(client|server).@(ts|js)`);
 
-    return files.reduce((spec, file) => {
+    config.client?.module?.rules;
+
+    return files.reduce((spec: ISpec, file: string) => {
         const bundleName = file
             .replace(folder, '')
             .split('/')
@@ -76,24 +75,27 @@ const getBundlesSpecByFolder = (folder, config, configOverrides = {}) => {
     }, {});
 };
 
-const getBundleConfigs = (spec, config = {}) => {
+const getBundleConfigs = (spec: ISpec, config: Configuration = {}) => {
     const bundles = Object.keys(spec);
 
-    let configs = [];
+    let configs: (Configuration | undefined)[] = [];
 
-    configs = configs.concat(bundles
-        .filter(bundle => Boolean(spec[bundle].entries.client))
-        .map(bundle => {
-            const clientConfig = spec[bundle].config['pdf-printer'];
+    configs = configs.concat(
+        bundles
+            .filter(bundle => Boolean(spec[bundle].entries.client))
+            .map(bundle => {
+                const clientConfig = spec[bundle].config.client;
 
-            if (clientConfig !== false) {
-                return getClientConfig({
-                    ...spec[bundle].config.client,
-                    bundleName: bundle,
-                    bundlePath: path.join(process.cwd(), spec[bundle].entries.client),
-                });
-            }
-        })
+                if (clientConfig !== false) {
+                    return getClientConfig({
+                        ...spec[bundle].config.client,
+                        bundleName: bundle,
+                        bundlePath: path.join(process.cwd(), spec[bundle].entries.client),
+                    });
+                }
+
+                return undefined;
+            })
     );
 
     if (config !== false) {
@@ -106,7 +108,11 @@ const getBundleConfigs = (spec, config = {}) => {
     return configs.filter(Boolean);
 };
 
-const getConfig = ({ folder, config = {}, configOverrides = {}, }) => {
+const getConfig = (
+    folder: string,
+    config: IConfiguration = {},
+    configOverrides: IConfigurationOverrides = {}
+) => {
     let spec = getBundlesSpecByFolder(folder, config, configOverrides);
 
     const { BUNDLE, } = process.env;
@@ -114,7 +120,7 @@ const getConfig = ({ folder, config = {}, configOverrides = {}, }) => {
     if (BUNDLE) {
         const bundles = BUNDLE.split(',');
 
-        const pickedSpec = {};
+        const pickedSpec: ISpec = {};
 
         bundles.forEach(bundleName => {
             if (spec[bundleName]) {
@@ -129,7 +135,7 @@ const getConfig = ({ folder, config = {}, configOverrides = {}, }) => {
         spec = pickedSpec;
     }
 
-    return getBundleConfigs(spec, config.server);
+    return getBundleConfigs(spec, config?.server);
 };
 
-module.exports = getConfig;
+export default getConfig;

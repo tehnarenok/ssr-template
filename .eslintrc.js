@@ -31,9 +31,15 @@ module.exports = {
             env: {
                 node: true,
                 es6: true,
-                browser: true,
             },
             plugins: [ 'jest', 'eslint-plugin-import', 'prettier' ],
+        },
+        {
+            files: [ '*.ts' ],
+            env: {
+                node: true,
+                es6: true,
+            },
         },
         {
             files: [ '*.tsx', '*.ts' ],

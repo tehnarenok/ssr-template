@@ -1,28 +1,33 @@
-const nodeExternals = require('webpack-node-externals');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const path = require('path');
+import nodeExternals from 'webpack-node-externals';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import CompressionPlugin from 'compression-webpack-plugin';
+import { Configuration } from 'webpack';
+import path from 'path';
 
-const cssRule = require('./rules/css');
-const jsRule = require('./rules/js');
-const tsRule = require('./rules/ts');
-const imagesRule = require('./rules/image');
-const fontsRule = require('./rules/font');
-const htmlRule = require('./rules/html');
+import cssRule from './rules/css';
+import jsRule from './rules/js';
+import tsRule from './rules/ts';
+import imagesRule from './rules/image';
+import fontsRule from './rules/font';
+import htmlRule from './rules/html';
 
-const providePlugin = require('./plugins/provide');
-const definePlugin = require('./plugins/define');
+import providePlugin from './plugins/provide';
+import definePlugin from './plugins/define';
+import { IEnv, IGetServerConfigProps } from './types';
 
 const { NODE_ENV, HOT, } = process.env;
-const ENV = NODE_ENV || 'development';
+const ENV = NODE_ENV as IEnv || 'development';
 
-module.exports = ({
-    entries = {},
-    serverBuildDir = path.join(process.cwd(), './build/server/'),
-    platform = 'desktop',
-    publicPath = '/build/assets/',
-    urlLoaderOptions = {},
-    useMobileOptimizedAssets = false,
-} = {}) => {
+const getServerConfig = (props: IGetServerConfigProps = {}): Configuration => {
+    const {
+        entries = {},
+        serverBuildDir = path.join(process.cwd(), './build/server/'),
+        platform = 'desktop',
+        urlLoaderOptions = {},
+        useMobileOptimizedAssets = false,
+        publicPath = '/build/assets/',
+    } = props;
+
     return {
         watch: Boolean(HOT),
         mode: ENV === 'production' ? 'production' : 'development',
@@ -59,9 +64,10 @@ module.exports = ({
             },
         },
         plugins: [
-            definePlugin({ env: ENV, platform, useMobileOptimizedAssets, }),
+            definePlugin({ env: ENV, platform, useMobileOptimizedAssets, browser: false, }),
             providePlugin({ target: 'node', }),
-            new MiniCssExtractPlugin()
+            new MiniCssExtractPlugin(),
+            new CompressionPlugin()
         ],
         module: {
             parser: {
@@ -77,7 +83,6 @@ module.exports = ({
                     env: ENV,
                     urlLoaderOptions: {
                         publicPath,
-                        emitFile: false,
                         ...urlLoaderOptions,
                     },
                 }),
@@ -94,10 +99,11 @@ module.exports = ({
         externals: [
             nodeExternals({
                 modulesFromFile: {
-                    fileName: './package.json',
                     include: [ 'dependencies' ],
                 },
             })
         ],
     };
 };
+
+export default getServerConfig;

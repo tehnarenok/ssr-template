@@ -1,39 +1,43 @@
-const TerserPlugin = require('terser-webpack-plugin');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const path = require('path');
+import TerserPlugin from 'terser-webpack-plugin';
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
+import { Configuration } from 'webpack';
+import path from 'path';
 
-const getBundlePrefix = require('./get-bundle-prefix');
+import getBundlePrefix from './get-bundle-prefix';
 
-const assetsPlugin = require('./plugins/assets');
-const definePlugin = require('./plugins/define');
-const extractCssPlugin = require('./plugins/extract-css');
-const loadablePlugin = require('./plugins/loadable');
-const providePlugin = require('./plugins/provide');
-const sourcemapDevtoolsPlugin = require('./plugins/sourcemap-devtools');
-const compressionPlugin = require('./plugins/compression');
-const hotReloadPlugin = require('./plugins/hot-reload');
+import assetsPlugin from './plugins/assets';
+import definePlugin from './plugins/define';
+import extractCssPlugin from './plugins/extract-css';
+import loadablePlugin from './plugins/loadable';
+import providePlugin from './plugins/provide';
+import sourcemapDevtoolsPlugin from './plugins/sourcemap-devtools';
+import compressionPlugin from './plugins/compression';
+import hotReloadPlugin from './plugins/hot-reload';
 
-const jsRule = require('./rules/js');
-const tsRule = require('./rules/ts');
-const cssRule = require('./rules/css');
-const imagesRule = require('./rules/image');
-const fontsRule = require('./rules/font');
-const htmlRule = require('./rules/html');
+import jsRule from './rules/js';
+import tsRule from './rules/ts';
+import cssRule from './rules/css';
+import imagesRule from './rules/image';
+import fontsRule from './rules/font';
+import htmlRule from './rules/html';
+import { IEnv, IGetClientConfigsProps } from './types';
 
 const { NODE_ENV, HOT, } = process.env;
-const ENV = NODE_ENV || 'development';
+const ENV: IEnv = NODE_ENV as IEnv || 'development';
 
-module.exports = ({
-    bundleName = '',
-    bundlePath = '',
-    publicPath = '/build/assets/',
-    clientBuildDir = path.join(process.cwd(), './build/assets/'),
-    serverBuildDir = path.join(process.cwd(), './build/server/'),
-    platform = 'desktop',
-    sourceMapsPath,
-    useMobileOptimizedAssets = false,
-    disableChunking = false,
-}) => {
+const getClientConfigs = (props: IGetClientConfigsProps): Configuration => {
+    const {
+        bundleName = '',
+        bundlePath = '',
+        publicPath = '/build/assets/',
+        clientBuildDir = path.join(process.cwd(), './build/assets/'),
+        serverBuildDir = path.join(process.cwd(), './build/server/'),
+        platform = 'desktop',
+        sourceMapsPath,
+        useMobileOptimizedAssets = false,
+        disableChunking = false,
+    } = props;
+
     const name = `${getBundlePrefix(bundleName)}client`;
 
     return {
@@ -106,7 +110,7 @@ module.exports = ({
             ] : []),
         module: {
             rules: [
-                jsRule({ env: ENV, hot: HOT, target: 'web', }),
+                jsRule({ env: ENV, hot: Boolean(HOT), target: 'web', }),
                 tsRule({ env: ENV, target: 'web', }),
                 cssRule({ env: ENV, }),
                 imagesRule({
@@ -116,11 +120,7 @@ module.exports = ({
                 htmlRule()
             ],
         },
-        externals: [
-            {
-                react: 'React',
-                'react-dom': 'ReactDOM',
-            }
-        ],
     };
 };
+
+export default getClientConfigs;

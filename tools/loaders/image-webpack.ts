@@ -1,16 +1,17 @@
-module.exports = ({ options = {}, } = {}) => ({
+import { IImageWebpackLoaderProps } from 'tools/types';
+import { RuleSetUseItem } from 'webpack';
+
+const imageWebpackLoader = (props: IImageWebpackLoaderProps = {}): RuleSetUseItem => ({
     loader: 'image-webpack-loader',
     options: {
         mozjpeg: {
             progressive: true,
-            quality: 1,
         },
         gifsicle: {
             interlaced: false,
-            quality: 1,
         },
         optipng: {
-            enable: false,
+            optimizationLevel: 7,
         },
         pngquant: {
             speed: 4,
@@ -18,6 +19,8 @@ module.exports = ({ options = {}, } = {}) => ({
         },
         svgo: {
         },
-        ...options,
+        ...(props.options),
     },
 });
+
+export default imageWebpackLoader;
