@@ -167,7 +167,7 @@ module.exports = {
         camelcase: [
             ERROR,
             {
-                properties: 'never',
+                properties: 'always',
                 allow: [
                     'UNSAFE_componentWillMount',
                     'UNSAFE_componentWillReceiveProps',

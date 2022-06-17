@@ -4,8 +4,8 @@ import { IPortalProps } from './types';
 
 const Portal = (props: IPortalProps) => {
     const {
-        client = true,
         server = false,
+        client = props.server ? Boolean(props.client) : true,
         children,
         selector,
     } = props;
