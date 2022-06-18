@@ -29,11 +29,7 @@ const renderServerApp = (props: IServerRenderProps) => {
             content={content}
             reactSrc=''
             initialState={store.getState()}
-            bodyScripts={[
-                { src: 'https://unpkg.com/react@18/umd/react.development.js', crossOrigin: true, },
-                { src: 'https://unpkg.com/react-dom@18/umd/react-dom.development.js', crossOrigin: true, },
-                ...(props.bodyScripts || [])
-            ]}
+            bodyScripts={props.bodyScripts}
             stylesheets={props.stylesheets}
         />
     );

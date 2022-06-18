@@ -8,9 +8,9 @@ import mv from './middleware';
 
 const app = express();
 
-const { PRJ_DIR = '', NODE_PORT = 8081, } = process.env;
+const { PRJ_DIR = '', NODE_PORT = 3000, } = process.env;
 
-app.use('/build/assets/', expressStaticGzip(
+app.use('/assets/', expressStaticGzip(
     path.join(PRJ_DIR, 'build', 'assets'),
     {
         enableBrotli: true,

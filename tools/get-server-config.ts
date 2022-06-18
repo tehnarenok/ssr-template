@@ -25,7 +25,7 @@ const getServerConfig = (props: IGetServerConfigProps = {}): Configuration => {
         platform = 'desktop',
         urlLoaderOptions = {},
         useMobileOptimizedAssets = false,
-        publicPath = '/build/assets/',
+        publicPath = '/assets/',
     } = props;
 
     return {

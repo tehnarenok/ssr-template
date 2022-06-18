@@ -29,7 +29,7 @@ const getClientConfigs = (props: IGetClientConfigsProps): Configuration => {
     const {
         bundleName = '',
         bundlePath = '',
-        publicPath = '/build/assets/',
+        publicPath = '/assets/',
         clientBuildDir = path.join(process.cwd(), './build/assets/'),
         serverBuildDir = path.join(process.cwd(), './build/server/'),
         platform = 'desktop',
