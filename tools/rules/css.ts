@@ -21,7 +21,7 @@ const cssRule = (props: ICssRuleProps): RuleSetRule => {
             {
                 test: /\.module\.css$/,
                 use: discard ? [
-                    cssLoader({ ...cssLoaderOptions, })
+                    cssLoader({ modules: { ...cssLoaderOptions.modules, exportOnlyLocals: true, }, })
                 ] : [
                     extractCssLoader(),
                     cssLoader({ ...cssLoaderOptions, }),

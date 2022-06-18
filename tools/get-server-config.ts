@@ -78,7 +78,7 @@ const getServerConfig = (props: IGetServerConfigProps = {}): Configuration => {
             rules: [
                 jsRule({ env: ENV, target: 'node', }),
                 tsRule({ env: ENV, target: 'node', }),
-                cssRule({ env: ENV, discard: false, }),
+                cssRule({ env: ENV, discard: true, }),
                 imagesRule({
                     env: ENV,
                     urlLoaderOptions: {
