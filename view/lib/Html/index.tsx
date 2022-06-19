@@ -24,7 +24,9 @@ const Html = (props: IHtmlProps) => {
                 inlineStylesheets={props.inlineStylesheets}
                 scripts={props.scripts}
                 links={props.links}
-            />
+            >
+                {props.headElements}
+            </HtmlHead>
             <body>
                 <div
                     id={props.rootId}
@@ -49,6 +51,7 @@ const Html = (props: IHtmlProps) => {
                         } : undefined}
                     />
                 ))}
+                {props.bodyElements}
             </body>
         </html>
     );

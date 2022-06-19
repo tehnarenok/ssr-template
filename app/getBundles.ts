@@ -11,7 +11,7 @@ interface IAsset {
 
 interface IBundle {
     assets: IAsset,
-    server: (props: IServerEntityProps) => void;
+    server: (props: IServerEntityProps) => string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: any;
 }

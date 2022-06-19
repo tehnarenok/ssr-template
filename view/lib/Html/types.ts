@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import {
     IHtmHeadScript,
     IHtmlHeadInlineStylesheet,
@@ -26,4 +27,6 @@ export interface IHtmlProps {
     inlineStylesheets?: IHtmlHeadInlineStylesheet[];
     scripts?: IHtmHeadScript[];
     links?: IHtmlHeadLink[];
+    bodyElements?: ReactNode | ReactNode[];
+    headElements?: ReactNode | ReactNode[];
 }

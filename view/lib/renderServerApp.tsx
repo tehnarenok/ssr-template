@@ -15,7 +15,7 @@ const renderServerApp = (props: IServerRenderProps) => {
     store.dispatch(goTo({ path: props.router.path, }));
     store.dispatch(changeQuery({ query: props.router.query ?? {}, }));
 
-    const extractor = new ChunkExtractor({ stats: props.loadable, });
+    const extractor = new ChunkExtractor({ stats: props.loadable, entrypoints: 'client', });
 
     const jsx = extractor.collectChunks(
         <Provider store={store}>
@@ -27,6 +27,9 @@ const renderServerApp = (props: IServerRenderProps) => {
 
     const content = renderToString(jsx);
 
+    const styles = extractor.getStyleElements();
+    const scripts = extractor.getScriptElements();
+
     let html = renderToStaticMarkup(
         <Html
             lang='ru'
@@ -36,6 +39,8 @@ const renderServerApp = (props: IServerRenderProps) => {
             initialState={store.getState()}
             bodyScripts={props.bodyScripts}
             stylesheets={props.stylesheets}
+            headElements={styles}
+            bodyElements={scripts}
         />
     );
 

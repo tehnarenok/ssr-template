@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export interface IHtmlHeadSeo {
     title: string;
     description: string;
@@ -35,4 +37,5 @@ export interface IHtmlHeadProps {
     links?: Array<IHtmlHeadLink>;
     stylesheets?: Array<IHtmlHeadStylesheet>;
     inlineStylesheets?: Array<IHtmlHeadInlineStylesheet>;
+    children?: ReactNode | ReactNode[];
 }

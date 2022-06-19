@@ -35,6 +35,7 @@ const HtmlHead = (props: IHtmlHeadProps) => {
                     dangerouslySetInnerHTML={{ __html: inlineStylesheet.content, }}
                 />
             ))}
+            {props.children}
         </head>
     );
 };

@@ -24,40 +24,19 @@ const render = (req: Request, res: Response, next: NextFunction) => {
     const pageBundle = req.bundle;
 
     if (!pageBundle) {
-        throw new Error([
+        const err = new Error([
             'Cant found bundle for',
             req.path
         ].join('\n'));
+
+        res.status(500).send(err.message.toString());
+
+        throw err;
     }
 
-    const { server: render, assets, loadable, } = bundles[pageBundle];
-
-    // eslint-disable-next-line prefer-const
-    let bodyScripts: string[] = [];
-    // eslint-disable-next-line prefer-const
-    let stylesheets: string[] = [];
-
-    for (const asset of Object.keys(assets)) {
-        for (const key of Object.keys(assets[asset])) {
-            switch (key) {
-                case 'css': {
-                    stylesheets.push((assets[asset][key]));
-                    break;
-                }
-                case 'js': {
-                    bodyScripts.push((assets[asset][key]));
-                    break;
-                }
-                default: {
-                    break;
-                }
-            }
-        }
-    }
+    const { server: render, loadable, } = bundles[pageBundle];
 
     const html = render({
-        bodyScripts: bodyScripts.map(script => ({ src: script, })),
-        stylesheets: stylesheets.map(href => ({ href, })),
         router,
         loadable,
     });
