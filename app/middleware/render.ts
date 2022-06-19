@@ -30,7 +30,7 @@ const render = (req: Request, res: Response, next: NextFunction) => {
         ].join('\n'));
     }
 
-    const { server: render, assets, } = bundles[pageBundle];
+    const { server: render, assets, loadable, } = bundles[pageBundle];
 
     // eslint-disable-next-line prefer-const
     let bodyScripts: string[] = [];
@@ -59,6 +59,7 @@ const render = (req: Request, res: Response, next: NextFunction) => {
         bodyScripts: bodyScripts.map(script => ({ src: script, })),
         stylesheets: stylesheets.map(href => ({ href, })),
         router,
+        loadable,
     });
 
     res.send(html);

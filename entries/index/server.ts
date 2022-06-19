@@ -7,6 +7,7 @@ export default (props: IServerEntityProps) => {
         bodyScripts = [],
         stylesheets = [],
         router,
+        loadable = {},
     } = props;
 
     const initialState = {
@@ -21,5 +22,6 @@ export default (props: IServerEntityProps) => {
             initialState,
         },
         router,
+        loadable,
     });
 };

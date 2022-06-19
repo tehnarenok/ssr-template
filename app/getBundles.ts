@@ -1,5 +1,6 @@
 import glob from 'glob';
 import path from 'path';
+import { IServerEntityProps } from '../entries/types';
 
 const { PRJ_DIR, } = process.env;
 
@@ -10,6 +11,7 @@ interface IAsset {
 
 interface IBundle {
     assets: IAsset,
+    server: (props: IServerEntityProps) => void;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: any;
 }

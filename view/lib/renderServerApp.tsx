@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import App from 'view/components/App';
 import { goTo, changeQuery } from 'view/store/actions/router';
 import getStore from 'view/store/getStore';
+import { ChunkExtractor } from '@loadable/server';
 import { IServerRenderProps } from './types';
 import Html from './Html';
 import renderServerPortals from './Portal/renderServerPortals';
@@ -14,13 +15,17 @@ const renderServerApp = (props: IServerRenderProps) => {
     store.dispatch(goTo({ path: props.router.path, }));
     store.dispatch(changeQuery({ query: props.router.query ?? {}, }));
 
-    const content = renderToString(
+    const extractor = new ChunkExtractor({ stats: props.loadable, });
+
+    const jsx = extractor.collectChunks(
         <Provider store={store}>
             <App>
                 <props.rootComponent />
             </App>
         </Provider>
     );
+
+    const content = renderToString(jsx);
 
     let html = renderToStaticMarkup(
         <Html
