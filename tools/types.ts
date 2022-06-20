@@ -78,6 +78,7 @@ export interface ISourceMapDevToolPluginProps {
 export interface ICssRuleProps {
     env: IEnv;
     discard?: boolean;
+    time: number;
 }
 
 export interface IFontRuleProps {
@@ -138,6 +139,7 @@ export interface IGetClientConfigsProps {
     sourceMapsPath?: string;
     useMobileOptimizedAssets?: boolean;
     disableChunking?: boolean;
+    time: number;
 }
 
 export interface IGetServerConfigProps {
@@ -147,4 +149,5 @@ export interface IGetServerConfigProps {
     publicPath?: string;
     urlLoaderOptions?: ILoaderOptions;
     useMobileOptimizedAssets?: boolean;
+    time: number;
 }

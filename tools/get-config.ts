@@ -80,6 +80,8 @@ const getBundleConfigs = (spec: ISpec, config: Configuration = {}) => {
 
     let configs: (Configuration | undefined)[] = [];
 
+    const time = new Date().getTime();
+
     configs = configs.concat(
         bundles
             .filter(bundle => Boolean(spec[bundle].entries.client))
@@ -91,6 +93,7 @@ const getBundleConfigs = (spec: ISpec, config: Configuration = {}) => {
                         ...spec[bundle].config.client,
                         bundleName: bundle,
                         bundlePath: path.join(process.cwd(), spec[bundle].entries.client),
+                        time,
                     });
                 }
 
@@ -102,6 +105,7 @@ const getBundleConfigs = (spec: ISpec, config: Configuration = {}) => {
         configs.push(getServerConfig({
             entries: getServerEntries(spec),
             ...config,
+            time,
         }));
     }
 

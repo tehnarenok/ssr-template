@@ -1,5 +1,6 @@
 import { ICssRuleProps } from 'tools/types';
 import { RuleSetRule } from 'webpack';
+import getCssClassName from '../helpers/getCssClassName';
 import cssLoader from '../loaders/css';
 import postcssLoader from '../loaders/post-css';
 import extractCssLoader from '../loaders/extract-css';
@@ -8,12 +9,25 @@ import nullLoader from '../loaders/null';
 const cssRule = (props: ICssRuleProps): RuleSetRule => {
     const { discard, } = props;
 
-    const cssLoaderOptions = {
-        modules: {
-            localIdentName: '[folder]__[local]--[hash:base64:5]',
-            exportLocalsConvention: 'camelCase',
-        },
-    };
+    const localIdentName = props.env === 'production' ? '2_2' : '[folder]__[local]--[hash:base64:5]';
+    const getLocalIdent = props.env === 'production' ? getCssClassName(props.time) : undefined;
+
+    const cssLoaderOptions = props.discard ?
+        {
+            modules: {
+                localIdentName,
+                exportLocalsConvention: 'camelCase',
+                exportOnlyLocals: true,
+                getLocalIdent,
+            },
+        } :
+        {
+            modules: {
+                localIdentName,
+                exportLocalsConvention: 'camelCase',
+                getLocalIdent,
+            },
+        };
 
     const rule: RuleSetRule = {
         test: /\.css$/,
@@ -21,7 +35,7 @@ const cssRule = (props: ICssRuleProps): RuleSetRule => {
             {
                 test: /\.module\.css$/,
                 use: discard ? [
-                    cssLoader({ modules: { ...cssLoaderOptions.modules, exportOnlyLocals: true, }, })
+                    cssLoader({ ...cssLoaderOptions, })
                 ] : [
                     extractCssLoader(),
                     cssLoader({ ...cssLoaderOptions, }),

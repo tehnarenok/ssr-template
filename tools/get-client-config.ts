@@ -112,7 +112,7 @@ const getClientConfigs = (props: IGetClientConfigsProps): Configuration => {
             rules: [
                 jsRule({ env: ENV, hot: Boolean(HOT), target: 'web', }),
                 tsRule({ env: ENV, target: 'web', }),
-                cssRule({ env: ENV, }),
+                cssRule({ env: ENV, time: props.time, }),
                 imagesRule({
                     env: ENV,
                 }),

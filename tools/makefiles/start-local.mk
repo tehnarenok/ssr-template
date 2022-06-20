@@ -4,7 +4,7 @@ start-local: ## Запуск проекта локально
 	@mkdir -p $(PRJ_DIR)logs/
 	@touch $(PRJ_DIR)logs/debug.log
 	@touch $(PRJ_DIR)logs/error.log
-	NODE_PORT=3000 NODE_ENV=$(YENV) PRJ_DIR=$(PRJ_DIR) LOGS_DIR=$(PRJ_DIR)logs $(NODE) $(NODEMON) --watch $(PRJ_DIR)build/server $(PRJ_DIR)build/server/app.js
+	NODE_PORT=3001 NODE_ENV=$(YENV) PRJ_DIR=$(PRJ_DIR) LOGS_DIR=$(PRJ_DIR)logs $(NODE) $(NODEMON) --watch $(PRJ_DIR)build/server $(PRJ_DIR)build/server/app.js
 
 .PHONY: start-local-debug
 start-local-debug:

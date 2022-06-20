@@ -18,7 +18,7 @@ import { IEnv, IGetServerConfigProps } from './types';
 const { NODE_ENV, HOT, } = process.env;
 const ENV = NODE_ENV as IEnv || 'development';
 
-const getServerConfig = (props: IGetServerConfigProps = {}): Configuration => {
+const getServerConfig = (props: IGetServerConfigProps): Configuration => {
     const {
         entries = {},
         serverBuildDir = path.join(process.cwd(), './build/server/'),
@@ -78,7 +78,7 @@ const getServerConfig = (props: IGetServerConfigProps = {}): Configuration => {
             rules: [
                 jsRule({ env: ENV, target: 'node', }),
                 tsRule({ env: ENV, target: 'node', }),
-                cssRule({ env: ENV, discard: true, }),
+                cssRule({ env: ENV, discard: true, time: props.time, }),
                 imagesRule({
                     env: ENV,
                     urlLoaderOptions: {
