@@ -8,10 +8,13 @@ import nullLoader from '../loaders/null';
 const cssRule = (props: ICssRuleProps): RuleSetRule => {
     const { discard, } = props;
 
+    const localIdentName = props.env === 'development' ? '[folder]__[local]--[hash:base64:5]' : 'hash:base64]';
+
     const cssLoaderOptions = {
         modules: {
-            localIdentName: '[folder]__[local]--[hash:base64:5]',
+            localIdentName,
             exportLocalsConvention: 'camelCase',
+            exportOnlyLocals: props.discard,
         },
     };
 
@@ -21,7 +24,7 @@ const cssRule = (props: ICssRuleProps): RuleSetRule => {
             {
                 test: /\.module\.css$/,
                 use: discard ? [
-                    cssLoader({ modules: { ...cssLoaderOptions.modules, exportOnlyLocals: true, }, })
+                    cssLoader({ ...cssLoaderOptions, })
                 ] : [
                     extractCssLoader(),
                     cssLoader({ ...cssLoaderOptions, }),

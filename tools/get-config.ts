@@ -3,7 +3,7 @@ import { Configuration } from 'webpack';
 import path from 'path';
 import getClientConfig from './get-client-config';
 import getServerConfig from './get-server-config';
-import { IConfiguration, IConfigurationOverrides, IEntries, ISpec } from './types';
+import { IConfigProps, IConfigurationOverrides, IEntries, ISpec } from './types';
 
 const getEntryType = (file: string) => {
     switch (true) {
@@ -51,12 +51,10 @@ const getServerEntries = (bundleSpecs: ISpec) => {
 
 const getBundlesSpecByFolder = (
     folder: string,
-    config: IConfiguration,
+    config: IConfigProps,
     configOverrides: IConfigurationOverrides = {}
 ) => {
     const files = glob.sync(`${folder}/**/@(client|server).@(ts|js)`);
-
-    config.client?.module?.rules;
 
     return files.reduce((spec: ISpec, file: string) => {
         const bundleName = file
@@ -68,14 +66,15 @@ const getBundlesSpecByFolder = (
         spec[bundleName] = spec[bundleName] || {};
         spec[bundleName].name = bundleName;
         spec[bundleName].entries = spec[bundleName].entries || {};
-        spec[bundleName].config = configOverrides[bundleName] ? configOverrides[bundleName] : config;
+        spec[bundleName].config = config;
         spec[bundleName].entries[getEntryType(file)] = file;
+        spec[bundleName].configOverrides = configOverrides[bundleName];
 
         return spec;
     }, {});
 };
 
-const getBundleConfigs = (spec: ISpec, config: Configuration = {}) => {
+const getBundleConfigs = (spec: ISpec, config: IConfigProps) => {
     const bundles = Object.keys(spec);
 
     let configs: (Configuration | undefined)[] = [];
@@ -101,7 +100,7 @@ const getBundleConfigs = (spec: ISpec, config: Configuration = {}) => {
     if (config !== false) {
         configs.push(getServerConfig({
             entries: getServerEntries(spec),
-            ...config,
+            ...config.server,
         }));
     }
 
@@ -110,7 +109,7 @@ const getBundleConfigs = (spec: ISpec, config: Configuration = {}) => {
 
 const getConfig = (
     folder: string,
-    config: IConfiguration = {},
+    config: IConfigProps,
     configOverrides: IConfigurationOverrides = {}
 ) => {
     let spec = getBundlesSpecByFolder(folder, config, configOverrides);
@@ -135,7 +134,7 @@ const getConfig = (
         spec = pickedSpec;
     }
 
-    return getBundleConfigs(spec, config?.server);
+    return getBundleConfigs(spec, config);
 };
 
 export default getConfig;

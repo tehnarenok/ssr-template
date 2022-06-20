@@ -1,5 +1,17 @@
 import { Configuration } from 'webpack';
 
+export type Platform = 'desktop' | 'mobile';
+
+export interface ICommonConfigProps {
+    platform?: Platform;
+    publicPath?: string;
+}
+
+export interface IConfigProps {
+    client?: ICommonConfigProps;
+    server?: ICommonConfigProps;
+}
+
 export interface ILoaderOptions {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: any
@@ -28,7 +40,8 @@ export interface ISpec {
             client: string;
             server: string;
         };
-        config: IConfiguration;
+        config: IConfigProps;
+        configOverrides: IConfiguration
     }
 }
 

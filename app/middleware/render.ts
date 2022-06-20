@@ -4,7 +4,7 @@ import getBundles from 'app/getBundles';
 
 const bundles = getBundles();
 
-const render = (req: Request, res: Response, next: NextFunction) => {
+const render = () => (req: Request, res: Response, next: NextFunction) => {
     const query = Object.keys(req.query).reduce((obj: {[key: string]: string}, key: string) => {
         const k: string = key.toString();
         const value = req.query[k]?.toString();
