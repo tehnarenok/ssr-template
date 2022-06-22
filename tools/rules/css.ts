@@ -8,7 +8,7 @@ import nullLoader from '../loaders/null';
 const cssRule = (props: ICssRuleProps): RuleSetRule => {
     const { discard, } = props;
 
-    const localIdentName = props.env === 'development' ? '[folder]__[local]--[hash:base64:5]' : 'hash:base64]';
+    const localIdentName = props.env === 'development' ? '[folder]__[local]--[hash:base64:5]' : '[hash:base64]';
 
     const cssLoaderOptions = {
         modules: {
